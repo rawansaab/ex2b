@@ -11,11 +11,15 @@ function Register() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
+    function handleSubmit(event) {
+        event.preventDefault();
+    }
+
     return (
         <section>
             <h2>Register</h2>
 
-            <form>
+            <form onSubmit={handleSubmit}>
                 <label htmlFor="registerUsername">Username</label>
                 <input
                     type="text"
