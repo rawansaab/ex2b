@@ -26,7 +26,6 @@ const PORT = 3000;
 const distPath = path.join(__dirname, "dist");
 
 app.use(express.json());
-app.use(express.static(distPath));
 
 app.use(session({
     secret: "my-tasks-secret",
@@ -275,6 +274,8 @@ app.delete(
         );
     }
 );
+
+app.use(express.static(distPath));
 
 app.get("/", (req, res) => {
     res.sendFile(path.join(distPath, "index.html"));
