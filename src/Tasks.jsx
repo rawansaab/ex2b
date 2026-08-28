@@ -26,7 +26,17 @@ function Tasks() {
         <section>
             <h2>My Tasks</h2>
 
-            {tasks.length === 0 && <p>No tasks yet.</p>}
+            {tasks.length === 0 ? (
+                <p>No tasks yet.</p>
+            ) : (
+                <ul>
+                    {tasks.map((task) => (
+                        <li key={task.id}>
+                            {task.title}
+                        </li>
+                    ))}
+                </ul>
+            )}
         </section>
     );
 }
