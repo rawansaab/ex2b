@@ -1,0 +1,97 @@
+/**
+* Names: Rawan Saab (213693625), Lareen Kadour (213992431), George Hanna (324090968)
+* Date: August 2026
+* Description:
+* Main stylesheet for the My Tasks application.
+*/
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #222222;
+}
+
+main {
+    width: 90%;
+    max-width: 650px;
+    margin: 40px auto;
+}
+
+h1 {
+    text-align: center;
+}
+
+section {
+    background-color: #ffffff;
+    padding: 24px;
+    margin-top: 20px;
+    border-radius: 8px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+label {
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+}
+
+button {
+    padding: 10px 14px;
+    margin-top: 10px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+ul {
+    padding: 0;
+    list-style: none;
+}
+
+li {
+    padding: 12px 0;
+    border-bottom: 1px solid #dddddd;
+}
+
+li span {
+    display: block;
+    margin-bottom: 6px;
+}
+
+li button {
+    margin-right: 8px;
+}
+
+@media (max-width: 600px) {
+    main {
+        width: 94%;
+        margin-top: 20px;
+    }
+
+    section {
+        padding: 16px;
+    }
+
+    button {
+        width: 100%;
+    }
+
+    li button {
+        margin-right: 0;
+    }
+}
