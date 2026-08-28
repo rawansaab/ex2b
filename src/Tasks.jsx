@@ -2,13 +2,14 @@
 * Names: Rawan Saab (213693625), Lareen Kadour (213992431), George Hanna (324090968)
 * Date: August 2026
 * Description:
-* React component for displaying the user's personal tasks.
+* React component for displaying and managing the user's personal tasks.
 */
 
 import { useEffect, useState } from "react";
 
 function Tasks() {
     const [tasks, setTasks] = useState([]);
+    const [newTask, setNewTask] = useState("");
 
     function loadTasks() {
         fetch("/api/tasks")
@@ -18,6 +19,10 @@ function Tasks() {
             });
     }
 
+    function handleSubmit(event) {
+        event.preventDefault();
+    }
+
     useEffect(() => {
         loadTasks();
     }, []);
@@ -25,6 +30,20 @@ function Tasks() {
     return (
         <section>
             <h2>My Tasks</h2>
+
+            <form onSubmit={handleSubmit}>
+                <label htmlFor="newTask">New Task</label>
+                <input
+                    type="text"
+                    id="newTask"
+                    name="newTask"
+                    value={newTask}
+                    onChange={(event) => setNewTask(event.target.value)}
+                    required
+                />
+
+                <button type="submit">Add Task</button>
+            </form>
 
             {tasks.length === 0 ? (
                 <p>No tasks yet.</p>
