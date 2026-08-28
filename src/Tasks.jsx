@@ -48,6 +48,16 @@ function Tasks() {
             });
     }
 
+    function deleteTask(taskId) {
+        fetch(`/api/tasks/${taskId}`, {
+            method: "DELETE"
+        })
+            .then((response) => response.json())
+            .then(() => {
+                loadTasks();
+            });
+    }
+
     useEffect(() => {
         loadTasks();
     }, []);
@@ -85,6 +95,13 @@ function Tasks() {
                                 {task.completed
                                     ? "Mark Active"
                                     : "Mark Complete"}
+                            </button>
+
+                            <button
+                                type="button"
+                                onClick={() => deleteTask(task.id)}
+                            >
+                                Delete
                             </button>
                         </li>
                     ))}
