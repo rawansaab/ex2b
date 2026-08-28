@@ -6,12 +6,14 @@
 */
 
 import Login from "./Login.jsx";
+import Register from "./Register.jsx";
 
 function App() {
     return (
         <main>
             <h1>My Tasks</h1>
             <Login />
+            <Register />
         </main>
     );
 }
