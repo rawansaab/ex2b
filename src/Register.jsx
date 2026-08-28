@@ -9,6 +9,7 @@ import { useState } from "react";
 
 function Register() {
     const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
 
     return (
         <section>
@@ -30,6 +31,8 @@ function Register() {
                     type="password"
                     id="registerPassword"
                     name="password"
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
                     required
                 />
 
