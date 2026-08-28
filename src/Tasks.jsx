@@ -38,6 +38,16 @@ function Tasks() {
             });
     }
 
+    function toggleTask(taskId) {
+        fetch(`/api/tasks/${taskId}/toggle`, {
+            method: "POST"
+        })
+            .then((response) => response.json())
+            .then(() => {
+                loadTasks();
+            });
+    }
+
     useEffect(() => {
         loadTasks();
     }, []);
@@ -66,7 +76,16 @@ function Tasks() {
                 <ul>
                     {tasks.map((task) => (
                         <li key={task.id}>
-                            {task.title}
+                            <span>{task.title}</span>
+
+                            <button
+                                type="button"
+                                onClick={() => toggleTask(task.id)}
+                            >
+                                {task.completed
+                                    ? "Mark Active"
+                                    : "Mark Complete"}
+                            </button>
                         </li>
                     ))}
                 </ul>
