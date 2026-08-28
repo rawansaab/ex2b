@@ -5,7 +5,11 @@
 * React component for the user registration screen.
 */
 
+import { useState } from "react";
+
 function Register() {
+    const [username, setUsername] = useState("");
+
     return (
         <section>
             <h2>Register</h2>
@@ -16,6 +20,8 @@ function Register() {
                     type="text"
                     id="registerUsername"
                     name="username"
+                    value={username}
+                    onChange={(event) => setUsername(event.target.value)}
                     required
                 />
 
