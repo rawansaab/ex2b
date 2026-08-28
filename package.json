@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/rawansaab/ex2b#readme",
   "dependencies": {
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
   }
 }
