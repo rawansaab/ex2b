@@ -77,6 +77,11 @@ li button {
     margin-right: 8px;
 }
 
+.completed-task span {
+    color: #777777;
+    text-decoration: line-through;
+}
+
 @media (max-width: 600px) {
     main {
         width: 94%;

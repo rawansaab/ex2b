@@ -89,7 +89,12 @@ function Tasks({ onLogout }) {
             ) : (
                 <ul>
                     {tasks.map((task) => (
-                        <li key={task.id}>
+                        <li
+                            key={task.id}
+                            className={task.completed
+                                ? "completed-task"
+                                : ""}
+                        >
                             <span>{task.title}</span>
 
                             <button
