@@ -21,6 +21,21 @@ function Tasks() {
 
     function handleSubmit(event) {
         event.preventDefault();
+
+        fetch("/api/tasks", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                title: newTask
+            })
+        })
+            .then((response) => response.json())
+            .then((task) => {
+                setTasks([task, ...tasks]);
+                setNewTask("");
+            });
     }
 
     useEffect(() => {
