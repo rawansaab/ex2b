@@ -83,6 +83,52 @@ app.post("/api/register", (req, res) => {
     );
 });
 
+app.post("/api/login", (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+
+    if (!username || !username.trim() || !password) {
+        return res.status(400).json({
+            error: "Username and password are required"
+        });
+    }
+
+    const sql = `
+        SELECT id, password
+        FROM users
+        WHERE username = ?
+    `;
+
+    db.get(sql, [username.trim()], (error, user) => {
+        if (error) {
+            return res.status(500).json({
+                error: "Could not login"
+            });
+        }
+
+        if (!user) {
+            return res.status(401).json({
+                error: "Invalid username or password"
+            });
+        }
+
+        const passwordHash = hashPassword(password);
+
+        if (passwordHash !== user.password) {
+            return res.status(401).json({
+                error: "Invalid username or password"
+            });
+        }
+
+        req.session.isAuthenticated = true;
+        req.session.userId = user.id;
+
+        return res.json({
+            success: true
+        });
+    });
+});
+
 app.get("/api/session", (req, res) => {
     if (req.session.isAuthenticated) {
         return res.json({
