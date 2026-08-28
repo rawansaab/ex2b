@@ -7,12 +7,35 @@
 
 import { useState } from "react";
 
-function Login() {
+function Login({ onLogin }) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [message, setMessage] = useState("");
 
     function handleSubmit(event) {
         event.preventDefault();
+
+        fetch("/api/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password
+            })
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    setMessage("");
+                    setUsername("");
+                    setPassword("");
+                    onLogin();
+                } else {
+                    setMessage(data.error);
+                }
+            });
     }
 
     return (
@@ -42,6 +65,8 @@ function Login() {
 
                 <button type="submit">Login</button>
             </form>
+
+            {message && <p>{message}</p>}
         </section>
     );
 }

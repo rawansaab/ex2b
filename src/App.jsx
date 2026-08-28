@@ -26,6 +26,10 @@ function App() {
             });
     }
 
+    function handleLogin() {
+        setAuthenticated(true);
+    }
+
     function handleLogout() {
         fetch("/api/logout", {
             method: "POST"
@@ -49,7 +53,11 @@ function App() {
                 <Tasks onLogout={handleLogout} />
             ) : (
                 <>
-                    {showRegister ? <Register /> : <Login />}
+                    {showRegister ? (
+                        <Register />
+                    ) : (
+                        <Login onLogin={handleLogin} />
+                    )}
 
                     <button type="button" onClick={changeScreen}>
                         {showRegister
