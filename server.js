@@ -3,4 +3,8 @@
 * George Hanna (324090968)
 * Date: August 2026
 * Github URL: https://github.com/rawansaab/ex2b
+* Description:
+* Main server file for Exercise 2B.
+* The server will handle user login, registration,
+* personal task data and communication with the database.
 */
