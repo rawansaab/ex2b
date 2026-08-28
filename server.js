@@ -31,6 +31,18 @@ app.use(session({
     }
 }));
 
+app.get("/api/session", (req, res) => {
+    if (req.session.isAuthenticated) {
+        return res.json({
+            authenticated: true
+        });
+    }
+
+    return res.json({
+        authenticated: false
+    });
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
