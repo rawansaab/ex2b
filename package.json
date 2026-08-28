@@ -1,16 +1,15 @@
 {
   "name": "ex2b",
   "version": "1.0.0",
-  "description": "",
+  "description": "Exercise 2B - My Tasks web application",
   "main": "server.js",
   "scripts": {
     "start": "npm run build && node server.js",
     "dev": "vite",
-    "build": "vite build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "vite build"
   },
   "keywords": [],
-  "author": "",
+  "author": "Rawan Saab, Lareen Kadour, George Hanna",
   "license": "ISC",
   "type": "commonjs",
   "repository": {
