@@ -5,15 +5,28 @@
 * Main React component for the My Tasks application.
 */
 
+import { useState } from "react";
 import Login from "./Login.jsx";
 import Register from "./Register.jsx";
 
 function App() {
+    const [showRegister, setShowRegister] = useState(false);
+
+    function changeScreen() {
+        setShowRegister(!showRegister);
+    }
+
     return (
         <main>
             <h1>My Tasks</h1>
-            <Login />
-            <Register />
+
+            {showRegister ? <Register /> : <Login />}
+
+            <button type="button" onClick={changeScreen}>
+                {showRegister
+                    ? "Already have an account? Login"
+                    : "New user? Register"}
+            </button>
         </main>
     );
 }
