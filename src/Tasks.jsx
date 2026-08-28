@@ -5,10 +5,22 @@
 * React component for displaying the user's personal tasks.
 */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function Tasks() {
     const [tasks, setTasks] = useState([]);
+
+    function loadTasks() {
+        fetch("/api/tasks")
+            .then((response) => response.json())
+            .then((data) => {
+                setTasks(data);
+            });
+    }
+
+    useEffect(() => {
+        loadTasks();
+    }, []);
 
     return (
         <section>
