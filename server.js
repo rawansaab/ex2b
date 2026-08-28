@@ -10,19 +10,23 @@
 * Imported modules:
 * express - creates the web server.
 * express-session - manages user sessions.
+* path - works with application file paths.
 * database - provides access to the SQLite database.
 * password - provides the password hashing function.
 */
 
 const express = require("express");
 const session = require("express-session");
+const path = require("path");
 const db = require("./database");
 const hashPassword = require("./password");
 
 const app = express();
 const PORT = 3000;
+const distPath = path.join(__dirname, "dist");
 
 app.use(express.json());
+app.use(express.static(distPath));
 
 app.use(session({
     secret: "my-tasks-secret",
@@ -271,6 +275,10 @@ app.delete(
         );
     }
 );
+
+app.get("/", (req, res) => {
+    res.sendFile(path.join(distPath, "index.html"));
+});
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
