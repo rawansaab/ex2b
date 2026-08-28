@@ -10,9 +10,31 @@ import { useState } from "react";
 function Register() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [message, setMessage] = useState("");
 
     function handleSubmit(event) {
         event.preventDefault();
+
+        fetch("/api/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password
+            })
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    setMessage("Registration successful. You can now login.");
+                    setUsername("");
+                    setPassword("");
+                } else {
+                    setMessage(data.error);
+                }
+            });
     }
 
     return (
@@ -42,6 +64,8 @@ function Register() {
 
                 <button type="submit">Register</button>
             </form>
+
+            {message && <p>{message}</p>}
         </section>
     );
 }
