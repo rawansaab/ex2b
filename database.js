@@ -2,7 +2,7 @@
 * Names: Rawan Saab (213693625), Lareen Kadour (213992431), George Hanna (324090968)
 * Date: August 2026
 * Description:
-* Creates the SQLite database connection and users table.
+* Creates the SQLite database connection and application tables.
 *
 * Imported modules:
 * sqlite3 - provides access to the SQLite database.
@@ -28,6 +28,19 @@ db.run(`
 `, (error) => {
     if (error) {
         console.error("Users table error:", error.message);
+    }
+});
+
+db.run(`
+    CREATE TABLE IF NOT EXISTS tasks (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        title TEXT NOT NULL,
+        completed INTEGER NOT NULL DEFAULT 0
+    )
+`, (error) => {
+    if (error) {
+        console.error("Tasks table error:", error.message);
     }
 });
 
