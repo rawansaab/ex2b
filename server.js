@@ -151,6 +151,39 @@ app.post(
     }
 );
 
+app.delete(
+    "/api/tasks/:id",
+    requireAuthentication,
+    (req, res) => {
+        const sql = `
+            DELETE FROM tasks
+            WHERE id = ? AND user_id = ?
+        `;
+
+        db.run(
+            sql,
+            [req.params.id, req.session.userId],
+            function (error) {
+                if (error) {
+                    return res.status(500).json({
+                        error: "Could not delete task"
+                    });
+                }
+
+                if (this.changes === 0) {
+                    return res.status(404).json({
+                        error: "Task not found"
+                    });
+                }
+
+                return res.json({
+                    success: true
+                });
+            }
+        );
+    }
+);
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
