@@ -5,7 +5,11 @@
 * React component for the user login screen.
 */
 
+import { useState } from "react";
+
 function Login() {
+    const [username, setUsername] = useState("");
+
     return (
         <section>
             <h2>Login</h2>
@@ -16,6 +20,8 @@ function Login() {
                     type="text"
                     id="username"
                     name="username"
+                    value={username}
+                    onChange={(event) => setUsername(event.target.value)}
                     required
                 />
 
