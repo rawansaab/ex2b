@@ -62,7 +62,22 @@ app.post("/api/logout", (req, res) => {
 });
 
 app.get("/api/tasks", requireAuthentication, (req, res) => {
-    res.json([]);
+    const sql = `
+        SELECT id, title, completed
+        FROM tasks
+        WHERE user_id = ?
+        ORDER BY id DESC
+    `;
+
+    db.all(sql, [req.session.userId], (error, rows) => {
+        if (error) {
+            return res.status(500).json({
+                error: "Could not load tasks"
+            });
+        }
+
+        return res.json(rows);
+    });
 });
 
 app.listen(PORT, () => {
