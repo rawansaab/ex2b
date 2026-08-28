@@ -9,14 +9,25 @@
 *
 * Imported modules:
 * express - creates the web server.
+* express-session - manages user sessions.
 */
 
 const express = require("express");
+const session = require("express-session");
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
+
+app.use(session({
+    secret: "my-tasks-secret",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        maxAge: 1000 * 60 * 10
+    }
+}));
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
