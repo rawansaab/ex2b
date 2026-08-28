@@ -14,6 +14,7 @@ function Register() {
 
     function handleSubmit(event) {
         event.preventDefault();
+        setMessage("");
 
         fetch("/api/register", {
             method: "POST",
@@ -28,12 +29,17 @@ function Register() {
             .then((response) => response.json())
             .then((data) => {
                 if (data.success) {
-                    setMessage("Registration successful. You can now login.");
+                    setMessage(
+                        "Registration successful. You can now login."
+                    );
                     setUsername("");
                     setPassword("");
                 } else {
-                    setMessage(data.error);
+                    setMessage(data.error || "Could not register user");
                 }
+            })
+            .catch(() => {
+                setMessage("Could not connect to the server");
             });
     }
 
@@ -47,6 +53,7 @@ function Register() {
                     type="text"
                     id="registerUsername"
                     name="username"
+                    autoComplete="username"
                     value={username}
                     onChange={(event) => setUsername(event.target.value)}
                     required
@@ -57,6 +64,7 @@ function Register() {
                     type="password"
                     id="registerPassword"
                     name="password"
+                    autoComplete="new-password"
                     value={password}
                     onChange={(event) => setPassword(event.target.value)}
                     required

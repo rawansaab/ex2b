@@ -13,6 +13,7 @@ import Tasks from "./Tasks.jsx";
 function App() {
     const [showRegister, setShowRegister] = useState(false);
     const [authenticated, setAuthenticated] = useState(false);
+    const [checkingSession, setCheckingSession] = useState(true);
 
     function changeScreen() {
         setShowRegister(!showRegister);
@@ -22,12 +23,23 @@ function App() {
         fetch("/api/session")
             .then((response) => response.json())
             .then((data) => {
-                setAuthenticated(data.authenticated);
+                setAuthenticated(data.authenticated === true);
+                setCheckingSession(false);
+            })
+            .catch(() => {
+                setAuthenticated(false);
+                setCheckingSession(false);
             });
     }
 
     function handleLogin() {
         setAuthenticated(true);
+        setShowRegister(false);
+    }
+
+    function handleSessionExpired() {
+        setAuthenticated(false);
+        setShowRegister(false);
     }
 
     function handleLogout() {
@@ -36,8 +48,10 @@ function App() {
         })
             .then((response) => response.json())
             .then(() => {
-                setAuthenticated(false);
-                setShowRegister(false);
+                handleSessionExpired();
+            })
+            .catch(() => {
+                handleSessionExpired();
             });
     }
 
@@ -49,8 +63,15 @@ function App() {
         <main>
             <h1>My Tasks</h1>
 
-            {authenticated ? (
-                <Tasks onLogout={handleLogout} />
+            {checkingSession ? (
+                <section>
+                    <p>Checking session...</p>
+                </section>
+            ) : authenticated ? (
+                <Tasks
+                    onLogout={handleLogout}
+                    onSessionExpired={handleSessionExpired}
+                />
             ) : (
                 <>
                     {showRegister ? (

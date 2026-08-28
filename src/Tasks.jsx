@@ -7,20 +7,43 @@
 
 import { useEffect, useState } from "react";
 
-function Tasks({ onLogout }) {
+function Tasks({ onLogout, onSessionExpired }) {
     const [tasks, setTasks] = useState([]);
     const [newTask, setNewTask] = useState("");
+    const [message, setMessage] = useState("");
+
+    function readResponse(response) {
+        if (response.status === 401) {
+            onSessionExpired();
+            return null;
+        }
+
+        return response.json();
+    }
 
     function loadTasks() {
         fetch("/api/tasks")
-            .then((response) => response.json())
+            .then(readResponse)
             .then((data) => {
-                setTasks(data);
+                if (data === null) {
+                    return;
+                }
+
+                if (Array.isArray(data)) {
+                    setTasks(data);
+                    setMessage("");
+                } else {
+                    setMessage(data.error || "Could not load tasks");
+                }
+            })
+            .catch(() => {
+                setMessage("Could not connect to the server");
             });
     }
 
     function handleSubmit(event) {
         event.preventDefault();
+        setMessage("");
 
         fetch("/api/tasks", {
             method: "POST",
@@ -31,30 +54,70 @@ function Tasks({ onLogout }) {
                 title: newTask
             })
         })
-            .then((response) => response.json())
-            .then((task) => {
-                setTasks([task, ...tasks]);
+            .then(readResponse)
+            .then((data) => {
+                if (data === null) {
+                    return;
+                }
+
+                if (data.error) {
+                    setMessage(data.error);
+                    return;
+                }
+
                 setNewTask("");
+                loadTasks();
+            })
+            .catch(() => {
+                setMessage("Could not add task");
             });
     }
 
     function toggleTask(taskId) {
+        setMessage("");
+
         fetch(`/api/tasks/${taskId}/toggle`, {
             method: "POST"
         })
-            .then((response) => response.json())
-            .then(() => {
+            .then(readResponse)
+            .then((data) => {
+                if (data === null) {
+                    return;
+                }
+
+                if (data.error) {
+                    setMessage(data.error);
+                    return;
+                }
+
                 loadTasks();
+            })
+            .catch(() => {
+                setMessage("Could not update task");
             });
     }
 
     function deleteTask(taskId) {
+        setMessage("");
+
         fetch(`/api/tasks/${taskId}`, {
             method: "DELETE"
         })
-            .then((response) => response.json())
-            .then(() => {
+            .then(readResponse)
+            .then((data) => {
+                if (data === null) {
+                    return;
+                }
+
+                if (data.error) {
+                    setMessage(data.error);
+                    return;
+                }
+
                 loadTasks();
+            })
+            .catch(() => {
+                setMessage("Could not delete task");
             });
     }
 
@@ -83,6 +146,8 @@ function Tasks({ onLogout }) {
 
                 <button type="submit">Add Task</button>
             </form>
+
+            {message && <p>{message}</p>}
 
             {tasks.length === 0 ? (
                 <p>No tasks yet.</p>

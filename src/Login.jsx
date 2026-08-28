@@ -14,6 +14,7 @@ function Login({ onLogin }) {
 
     function handleSubmit(event) {
         event.preventDefault();
+        setMessage("");
 
         fetch("/api/login", {
             method: "POST",
@@ -28,13 +29,15 @@ function Login({ onLogin }) {
             .then((response) => response.json())
             .then((data) => {
                 if (data.success) {
-                    setMessage("");
                     setUsername("");
                     setPassword("");
                     onLogin();
                 } else {
-                    setMessage(data.error);
+                    setMessage(data.error || "Could not login");
                 }
+            })
+            .catch(() => {
+                setMessage("Could not connect to the server");
             });
     }
 
@@ -48,6 +51,7 @@ function Login({ onLogin }) {
                     type="text"
                     id="username"
                     name="username"
+                    autoComplete="username"
                     value={username}
                     onChange={(event) => setUsername(event.target.value)}
                     required
@@ -58,6 +62,7 @@ function Login({ onLogin }) {
                     type="password"
                     id="password"
                     name="password"
+                    autoComplete="current-password"
                     value={password}
                     onChange={(event) => setPassword(event.target.value)}
                     required
