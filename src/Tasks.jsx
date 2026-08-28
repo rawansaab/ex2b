@@ -5,10 +5,16 @@
 * React component for displaying the user's personal tasks.
 */
 
+import { useState } from "react";
+
 function Tasks() {
+    const [tasks, setTasks] = useState([]);
+
     return (
         <section>
             <h2>My Tasks</h2>
+
+            {tasks.length === 0 && <p>No tasks yet.</p>}
         </section>
     );
 }
