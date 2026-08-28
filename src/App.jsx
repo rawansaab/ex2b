@@ -5,10 +5,13 @@
 * Main React component for the My Tasks application.
 */
 
+import Login from "./Login.jsx";
+
 function App() {
     return (
         <main>
             <h1>My Tasks</h1>
+            <Login />
         </main>
     );
 }
