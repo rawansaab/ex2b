@@ -7,4 +7,9 @@
 * Main server file for Exercise 2B.
 * The server will handle user login, registration,
 * personal task data and communication with the database.
+*
+* Imported modules:
+* express - creates the web server.
 */
+
+const express = require("express");
