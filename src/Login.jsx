@@ -11,11 +11,15 @@ function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
+    function handleSubmit(event) {
+        event.preventDefault();
+    }
+
     return (
         <section>
             <h2>Login</h2>
 
-            <form>
+            <form onSubmit={handleSubmit}>
                 <label htmlFor="username">Username</label>
                 <input
                     type="text"
