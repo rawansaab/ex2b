@@ -31,6 +31,16 @@ app.use(session({
     }
 }));
 
+function requireAuthentication(req, res, next) {
+    if (!req.session.isAuthenticated) {
+        return res.status(401).json({
+            error: "Authentication required"
+        });
+    }
+
+    next();
+}
+
 app.get("/api/session", (req, res) => {
     if (req.session.isAuthenticated) {
         return res.json({
@@ -49,6 +59,10 @@ app.post("/api/logout", (req, res) => {
             success: true
         });
     });
+});
+
+app.get("/api/tasks", requireAuthentication, (req, res) => {
+    res.json([]);
 });
 
 app.listen(PORT, () => {
