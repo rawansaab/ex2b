@@ -9,6 +9,7 @@ import { useState } from "react";
 
 function Login() {
     const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
 
     return (
         <section>
@@ -30,6 +31,8 @@ function Login() {
                     type="password"
                     id="password"
                     name="password"
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
                     required
                 />
 
