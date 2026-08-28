@@ -113,6 +113,44 @@ app.post("/api/tasks", requireAuthentication, (req, res) => {
     );
 });
 
+app.post(
+    "/api/tasks/:id/toggle",
+    requireAuthentication,
+    (req, res) => {
+        const sql = `
+            UPDATE tasks
+            SET completed =
+                CASE
+                    WHEN completed = 0 THEN 1
+                    ELSE 0
+                END
+            WHERE id = ? AND user_id = ?
+        `;
+
+        db.run(
+            sql,
+            [req.params.id, req.session.userId],
+            function (error) {
+                if (error) {
+                    return res.status(500).json({
+                        error: "Could not update task"
+                    });
+                }
+
+                if (this.changes === 0) {
+                    return res.status(404).json({
+                        error: "Task not found"
+                    });
+                }
+
+                return res.json({
+                    success: true
+                });
+            }
+        );
+    }
+);
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
