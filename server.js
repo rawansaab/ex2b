@@ -80,6 +80,39 @@ app.get("/api/tasks", requireAuthentication, (req, res) => {
     });
 });
 
+app.post("/api/tasks", requireAuthentication, (req, res) => {
+    const title = req.body.title;
+
+    if (!title || !title.trim()) {
+        return res.status(400).json({
+            error: "Task title is required"
+        });
+    }
+
+    const sql = `
+        INSERT INTO tasks (user_id, title, completed)
+        VALUES (?, ?, 0)
+    `;
+
+    db.run(
+        sql,
+        [req.session.userId, title.trim()],
+        function (error) {
+            if (error) {
+                return res.status(500).json({
+                    error: "Could not add task"
+                });
+            }
+
+            return res.status(201).json({
+                id: this.lastID,
+                title: title.trim(),
+                completed: 0
+            });
+        }
+    );
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
