@@ -26,6 +26,17 @@ function App() {
             });
     }
 
+    function handleLogout() {
+        fetch("/api/logout", {
+            method: "POST"
+        })
+            .then((response) => response.json())
+            .then(() => {
+                setAuthenticated(false);
+                setShowRegister(false);
+            });
+    }
+
     useEffect(() => {
         checkSession();
     }, []);
@@ -35,7 +46,7 @@ function App() {
             <h1>My Tasks</h1>
 
             {authenticated ? (
-                <Tasks />
+                <Tasks onLogout={handleLogout} />
             ) : (
                 <>
                     {showRegister ? <Register /> : <Login />}

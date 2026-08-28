@@ -7,7 +7,7 @@
 
 import { useEffect, useState } from "react";
 
-function Tasks() {
+function Tasks({ onLogout }) {
     const [tasks, setTasks] = useState([]);
     const [newTask, setNewTask] = useState("");
 
@@ -65,6 +65,10 @@ function Tasks() {
     return (
         <section>
             <h2>My Tasks</h2>
+
+            <button type="button" onClick={onLogout}>
+                Logout
+            </button>
 
             <form onSubmit={handleSubmit}>
                 <label htmlFor="newTask">New Task</label>
