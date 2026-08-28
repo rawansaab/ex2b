@@ -11,11 +11,13 @@
 * express - creates the web server.
 * express-session - manages user sessions.
 * database - provides access to the SQLite database.
+* password - provides the password hashing function.
 */
 
 const express = require("express");
 const session = require("express-session");
 const db = require("./database");
+const hashPassword = require("./password");
 
 const app = express();
 const PORT = 3000;
@@ -40,6 +42,46 @@ function requireAuthentication(req, res, next) {
 
     next();
 }
+
+app.post("/api/register", (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+
+    if (!username || !username.trim() || !password) {
+        return res.status(400).json({
+            error: "Username and password are required"
+        });
+    }
+
+    const passwordHash = hashPassword(password);
+
+    const sql = `
+        INSERT INTO users (username, password)
+        VALUES (?, ?)
+    `;
+
+    db.run(
+        sql,
+        [username.trim(), passwordHash],
+        (error) => {
+            if (error) {
+                if (error.code === "SQLITE_CONSTRAINT") {
+                    return res.status(409).json({
+                        error: "Username already exists"
+                    });
+                }
+
+                return res.status(500).json({
+                    error: "Could not register user"
+                });
+            }
+
+            return res.status(201).json({
+                success: true
+            });
+        }
+    );
+});
 
 app.get("/api/session", (req, res) => {
     if (req.session.isAuthenticated) {
