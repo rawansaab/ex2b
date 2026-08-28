@@ -10,10 +10,12 @@
 * Imported modules:
 * express - creates the web server.
 * express-session - manages user sessions.
+* database - provides access to the SQLite database.
 */
 
 const express = require("express");
 const session = require("express-session");
+const db = require("./database");
 
 const app = express();
 const PORT = 3000;
