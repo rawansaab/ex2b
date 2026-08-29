@@ -92,3 +92,6 @@ GitHub repository:
 
 https://github.com/rawansaab/ex2b
 
+## AI Use
+
+ChatGPT was used for assistance during development.
